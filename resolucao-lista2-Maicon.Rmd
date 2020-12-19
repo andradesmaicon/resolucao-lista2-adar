@@ -184,7 +184,42 @@ part2 <- rep(x = 1:5, times = 1:5)
 ```
 
 
-##### 
+##### 7. Usando o mesmo código para solução em todos os itens abaixo, obtenha as seguintes sequências usando os vetores fornecidos.
+
+```{r , eval=TRUE,echo=FALSE}
+v3 <- c(11, 0.25, 7, 2)
+```
+
+a. v3 = `r paste0("(", paste(v3 , collapse = ", "), ")")`
+```{r}
+(vec3 <- seq(11, 0.25))
+```
+
+
+b. v2 = `r paste0("(", paste(v3[1:2] , collapse = ", "), ")")`
+```{r}
+(vec2 <- seq(11,0.25))
+```
+
+
+c. v1 = `r paste0("(", paste(v3[1] , collapse = ", "), ")")`
+```{r}
+(vec1 <- seq(11))
+```
+
+
+```{r Chunk7d, eval=TRUE,echo=FALSE,comment=""}
+(v0 <- c())
+``` 
+
+d. v0 = `r paste0("(", paste(v0 , collapse = ", "), ")")`
+```{r}
+(vec0 <- seq())
+```
+
+```{r}
+## Não entendi o que era pra fazer nessa questão.
+```
 
 
 ##### 8. Considere os seguintes dados horários de temperatura do ar ($T_{ar}$) registrados em duas estações meteorológicas, entre as 0 e 23 horas de um dado dia.
@@ -204,10 +239,12 @@ tar_est2 <- c(
 
 ```{r}
 tempo <- seq(from = 0, to = 23, by = 1)
-plot(tempo, tar_est1, type = "p", col = 4, xlab = "", ylab = "", ylim = c(12,24))
-points(tempo, tar_est2, col = 3)
+plot(tempo, tar_est1, type = "p", pch = 19, col = 4, xlab = "", ylab = "", ylim = c(12,24))
+points(tempo, tar_est2, col = 3, pch = 18)
 mtext(side = 1, "Tempo (Horas)", line = 2.5, cex = 1)
 mtext(side = 2, "Temperatura (°C)", line = 2.5, cex = 1)
+legenda <- c("tar_est1","tar_est2")
+legend(0, 24, legenda, col = c(4,3), pch = c(19,18), bty = "n", cex = 0.9, ncol = 1)
 ```
 
 
@@ -220,21 +257,18 @@ mtext(side = 2, "Temperatura (°C)", line = 2.5, cex = 1)
   **b**. Utilizando as variáveis do item anterior, verifique usando comparação lógica, em qual estação o ambiente é mais quente?
 ```{r}
 print(c("A estação 2 é mais quente que a estação 1?", tmed_est1 < tmed_est2))
+print(c("A estação 1 é mais quente que a estação 2?", tmed_est1 > tmed_est2))
 ```
 
   **c**. Obtenha a 3ª maior temperatura do dia em cada estação.
 ```{r}
 # ordena o vetor tar_est1 em ordem crescente
 order(tar_est1)
-
 (T1_3rd <- tar_est1[17])
 
-
 order(tar_est2)
-
 (T2_3rd <- tar_est2[16])
 ```
-
 
   **d**. Calcule a amplitude térmica diária ($ATD = T_{max}-T_{min}$, onde $T_{max}$: temperatura máxima dária e $T_{min}$: temperatura mínima dária) das estações 1 e 2, arrendondando para uma casa decimal. Salve os resultados nas variaveis `atd_est1` e `atd_est2`.
 ```{r}
@@ -313,6 +347,8 @@ min2 <- which.min(tar_est2)
 $T_{med_{1}} = (T_{max} + T_{min})/2$, salvando em uma variável `tar_met1`.
 
 ```{r}
+# método 1:
+
 Tmax2 <- tar_est2[which.max(tar_est2)]
 Tmin2 <- tar_est2[which.min(tar_est2)]
 
@@ -322,17 +358,22 @@ Tmin2 <- tar_est2[which.min(tar_est2)]
 
 $T_{med_{2}} = (T_{max} + T_{min} + T_{9} + 2T_{21})/5$, salvando em uma variável `tar_met2`.
 ```{r}
+# método 2:
+
 (tar_met2 <- (Tmax2 + Tmin2 + tar_est2[9] + 2* tar_est2[21])/5)
 ```
 
 $T_{med_{3}} = (T_{7} + T_{14} + 2T_{21})/4$, salvando em uma variável `tar_met3`.
 ```{r}
+# método 3:
+
 (tar_met3 <- (tar_est2[7] + tar_est2[14] + 2*tar_est2[21])/4) 
 ```
 
 Compare este resultados com aqueles obtidos no item **a**. Qual é melhor?
 
-Comparando os resultados obtidos com o do item **a**, $T_{med_{3}}$ apresenta um valor mais próximo, isto se deve ao fato deste método não utilizar os pontos extremos do vetor dos dados (temperatura máxima e mínima). 
+Comparando os resultados obtidos com o do item **a**, $T_{med_{3}}$ apresenta um valor mais próximo, isto se deve ao fato do método não utilizar os pontos extremos do vetor dos dados (temperatura máxima e mínima). 
+
 
 ##### 9. Calcule a temperatura do ar horária usando o **modelo de onda** para representação do ciclo diário da temperatura do ar, descrito pelas seguintes equações:
 
@@ -431,6 +472,8 @@ plot(h, Tcalc1, type = "p", pch = 19, col = 1, xlab = "", ylab = "", ylim = c(12
 points(h, Tcalc2, pch = 18, col = 2)
 mtext(side = 1, "Tempo (Horas)", line = 2.5, cex = 1)
 mtext(side = 2, "Temperatura (°C)", line = 2.5, cex = 1)
+legenda <- c("Tcalc1","Tcalc2")
+legend(0, 24, legenda, col = c(1,2), pch = c(19,18), bty = "n", cex = 0.9, ncol = 1)
 
 ```
 
@@ -491,4 +534,17 @@ den2 <- som3*som4
 
 ```
   
-  
+```{r}
+
+## Comparação com os dados das estações
+
+plot(h, Tcalc1, type = "l", col = 1, xlab = "", ylab = "", ylim = c(12,24))
+lines(h, Tcalc2, col = 2)
+lines(h, tar_est1, col = 4)
+lines(h, tar_est2, col = 3)
+mtext(side = 1, "Tempo (Horas)", line = 2.5, cex = 1)
+mtext(side = 2, "Temperatura (°C)", line = 2.5, cex = 1)
+legenda <- c("Tcalc1","Tcalc2", "tar_est1", "tar_est2")
+legend(0, 24, legenda, col = c(1,2,4,3), lty = c(1,1,1,1), bty = "n", cex = 0.9, ncol = 2)
+```
+
