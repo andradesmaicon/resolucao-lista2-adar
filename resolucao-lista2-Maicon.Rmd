@@ -2,22 +2,55 @@
 title: "Resolução da Lista 2 de ADAR"
 author: "Maicon Fonseca Andrades"
 date: "18/12/2020"
-output: html_document
+output: 
+  html_document:
+    self_contained: true
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
 
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  prompt = FALSE,
+  cache = FALSE,
+  fig.path = "images/",
+  comment = "#>",
+  collapse = TRUE
+)
 library(tidyverse)
 ```
 
+## Critérios de Avaliação
+>
+> **Formato padrão de entrega**: só serão avaliadas as listas entregues no [padrão](https://lhmet.github.io/adar-ebook/exerc%C3%ADcios.html) especificado na instrução da referida lista. Entregas fora do padrão implica em nota mínima (zero). O Rmd deve ser baseado no template fornecido.
+>
+> **Identificação**: Arquivo .Rmd sem autoria acarreta uma penalização de 5%. 
+>
+> **Prática de [R Markdown](https://lhmet.github.io/adar-ebook/r-markdown.html)**: A intenção ao solicitar a entrega em R Markdown é de incentivar a prática do R Markdown nas resoluções das questões, incluindo códigos e texto para discutir ou explicar sua solução. A penalização neste critério é até 5% do valor da questão..
+>
+> **Boas práticas**: Os códigos são avaliados quanto as boas práticas recomendadas no [livro](https://lhmet.github.io/adar-ebook/boas-pr%C3%A1ticas-para-c%C3%B3digos-de-boa-qualidade.html). Penalização de até 5% do valor questão.
+>
+> **Erros de digitação e ortografia**: como há recursos para verificação deste tipo de erro (ver [verificação ortográfica no RStudio](https://lhmet.github.io/adar-ebook/verifica%C3%A7%C3%A3o-ortogr%C3%A1fica.html)) eles são penalizados em até 5% do valor questão.
+>
+> **Reprodutibilidade**: o arquivo .Rmd deve rodar sem problemas e gerar o arquivo html com as respostas das questões.
+>
+> **Organização**: a resolução das questões devem ser feitas no espaço reservado para ela, ou seja, logo abaixo do enunciado da referida questão no arquivo .Rmd.
+>
+> **Adequação**: a lista foi concebida para você aplicar o aprendizado do conteúdo referente ao capítulo da lista. Portanto, a melhor solução é a que aplica as funções pertinentes ao conteúdo daquele capítulo e os pacotes recomendados.
 
 
 ##### 1. Crie um vetor com os valores de $e^{x}cos{x}$ para os valores de $x = (3, 3.1, 3.2, ..., 6$).
 ```{r}
 x <- seq(from = 3, to = 6, by = 0.1)
 
-(vetor_result <- exp(x)*cos(x))
+#(vetor_result <- exp(x)*cos(x)) # sem addin styler
+(vetor_result <- exp(x) * cos(x)) # com addin styler (boas práticas!)
+```
+
+```{r jdt-correcao1, echo = FALSE, comment="JDT>"}
+# penalizacoes
+p1 <- 0.05 # identação
+# nota questão 1
+(nq1 <- 1 - p1)
 ```
 
 
@@ -39,6 +72,18 @@ dd <- seq(from = 1, to = 34, by = 3)
 j <- seq(from = 1, to = 25, by = 1)
 
 (vetor_solu_b <- (2^j)/j)
+#(vetor_solu_b <- (2^j) / j) # com styler
+
+# código bem mais simples e legível 
+2^(1:25)/(1:25)
+```
+
+
+```{r jdt-correcao2, echo = FALSE, comment="JDT>"}
+# penalizacoes
+p2 <- 0.05 
+# nota questão 1
+(nq2 <- 1 - p2)
 ```
 
 
@@ -53,7 +98,16 @@ names(dds) <- nomes
 dds
 ```
 
+```{r jdt-correcao3, echo = FALSE, comment="JDT>"}
+# penalizacoes
+p3 <- 0
+# nota questão 1
+(nq3 <- 1 - p3)
+```
+
+
 ##### 4. Interprete o resultado da seguinte operação:
+
 ```{r}
 dds_nums <- c(
   5L, 2L, 5L, 2L, 7L, 7L, 2L,
@@ -62,6 +116,17 @@ dds_nums <- c(
 )
 names(dds)[dds_nums]
 
+```
+
+>JDT: e a interpretação? Como surgiram 21 nomes dos dias da semana a partir de 
+um vetor com apenas 7 nomes? O aspecto chave era perceber para que serve 
+RECICLAGEM.
+
+```{r jdt-correcao4, echo = FALSE, comment="JDT>"}
+# penalizacoes
+p4 <- 1
+# nota questão 
+(nq4 <- 1 - p4)
 ```
 
 ##### 5. Para um ano ser bissexto, ele deve ser:
@@ -83,7 +148,7 @@ names(dds)[dds_nums]
 `r paste("    ")`d. Programe como obter o total de anos com 366 dias?
 
 ```{r}
-
+set.seed(3) #! FALTOU ISSO
 (anos <- c(sample(1890:2015, 10), 2100, 2300))
 
 ## letra a) ----------------------------------------------------
@@ -91,7 +156,7 @@ names(dds)[dds_nums]
 anos_bissextos <- c(NULL)
 
 for (i in 1:length(anos)) {
-  
+  # FALTOU CONDIÇÃO - LEIA O ENUNCIADO
   if (anos[i] %% 4 == 0 && anos[i] %% 100!=0) {
           
     anos_bissextos <- anos[i]
@@ -143,6 +208,57 @@ print(c("O total de anos com 366 dias é:", contador))
 print(c("O(s) ano(s) bissexto(s) é(são):", anos_bissextos2))
 
 ```
+> Além de desnecessários os loopings são ineficientes, mas o principal, seu
+algoritmo está faltando uma condição. Leia o enunciado. Na letra os anos são 1894, 1947, 1901, 1992, 1925, 2014, 1993, 1996, 1984, 1897, 2100, 2300. Que resultam do sorteio que fizesse mas usando `set.seed(3)`.
+
+> Neste capítulo não foi ensinado loopings. Então significa que eles não são 
+úteis para estas questões. 
+
+> Aprenda a trabalhar com vetorização, isso o fará escrever códigos 
+eficientes e legíveis. Como dizia Da Vinci:"A simplicidade é o último grau da 
+sofisticação\".
+
+```{r}
+# Código esperado usando conhecimento do capítulo
+# (a)
+eh_biss <- (anos %% 4 == 0) & ((anos %% 100 != 0) | (anos %% 400 == 0))
+eh_biss
+# (b)
+anos[eh_biss]
+# (c)
+(ndias <- ifelse(eh_biss, 366, 365))
+# (d)
+sum(ndias == 366)
+```
+
+> Veja ineficiência de seu código:
+
+```{r}
+microbenchmark::microbenchmark(
+  codigo_inef = {
+    anos_bissextos <- c(NULL)
+    for (i in 1:length(anos)) {
+      # FALTOU CONDIÇÃO - LEIA O ENUNCIADO
+      if (anos[i] %% 4 == 0 && anos[i] %% 100 != 0) {
+        anos_bissextos <- anos[i]
+      }
+    }
+  },
+  codigo_simples = {
+    eh_biss <- (anos %% 4 == 0) & ((anos %% 100 != 0) | (anos %% 400 == 0))
+  }
+)
+# seu código é 3 ordens de grandeza mais lento que o vetorizado ensinado em aula.
+```
+
+
+```{r jdt-correcao5, echo = FALSE, comment="JDT>"}
+# penalizacoes
+p5 <- 0.1 # por não usar conhecimento do capítulo e código ineficiente
+# nota questão 1
+(nq5 <- 1 - p5)
+```
+
 
 
 ##### 6. Quais códigos para gerar os seguintes dados:
@@ -151,8 +267,16 @@ print(c("O(s) ano(s) bissexto(s) é(são):", anos_bissextos2))
 
 vetor_4 <- c(-30, 0, 5, 10, 15, 20, 30)
 vetor_4
-
 ```
+
+> era esperado usar mais programação e menos digitação. Se fosse até -1000 a 1000 irias digitar? Pense como programador.
+
+```{r}
+c(-30, seq(0, 20, by = 5), 30)
+```
+
+  
+  
   b.
 ```{r}
 
@@ -161,6 +285,7 @@ vetor_4
 ```
   c.
 ```{r}
+#?
 (-3.1415927 + 2.4434610)
 (-2.4434610 + 1.7453293)
 (2.4434610 - 3.1415927)
@@ -168,6 +293,18 @@ vetor_4
 (vetor_6 <- seq(from = -3.1415927, to = 3.1415927, by = 0.6981317))
 
 ```
+
+```{r}
+message("Conheça a constante pi: ", pi)
+seq(-pi, pi, length.out = 10)
+identical(
+  seq(from = -3.1415927, to = 3.1415927, by = 0.6981317), 
+  seq(-pi, pi, length.out = 10)
+)
+```
+> Sua resposta não é idêntica aos valores fornecidos. 
+ 
+ 
  d.
 ```{r}
 (vetor_7 <- rep(x = -1:5, times = 2:8))
@@ -181,6 +318,17 @@ part2 <- rep(x = 1:5, times = 1:5)
 
 (vetor_8 <- c(part1, part2))
 
+# era possível em uma linha só
+#rep(c(5:1, 2:5), times = c(5:1, 2:5))
+```
+
+```{r jdt-correcao6, echo = FALSE, comment="JDT>"}
+# penalizacoes
+p6 <- (1/5 * 0.25) +  # a
+      (1/5 * 0.25)   # c
+  
+# nota questão 1
+(nq6 <- 1 - p6)
 ```
 
 
@@ -216,11 +364,20 @@ d. v0 = `r paste0("(", paste(v0 , collapse = ", "), ")")`
 ```{r}
 (vec0 <- seq())
 ```
+> Na (d) nao produziu o resultado do enunciado.
 
 ```{r}
 ## Não entendi o que era pra fazer nessa questão.
 ```
 
+> Porque não perguntou? `?seq` veria outros argumentos, como: `seq(along = x)`.
+
+```{r jdt-correcao7, echo = FALSE, comment="JDT>"}
+# penalizacoes
+p7 <- 1
+# nota questão 
+(nq7 <- 1 - p7)
+```
 
 ##### 8. Considere os seguintes dados horários de temperatura do ar ($T_{ar}$) registrados em duas estações meteorológicas, entre as 0 e 23 horas de um dado dia.
 
@@ -265,10 +422,22 @@ print(c("A estação 1 é mais quente que a estação 2?", tmed_est1 > tmed_est2
 # ordena o vetor tar_est1 em ordem crescente
 order(tar_est1)
 (T1_3rd <- tar_est1[17])
-
+#! tar_est1[order(tar_est1, decreasing = TRUE)][3]
+#! rev(sort(tar_est1))[3]
 order(tar_est2)
 (T2_3rd <- tar_est2[16])
+
 ```
+
+> Você não resolveu a questão pois daonde saíram os valores 17 e 18?
+Se tivesse que fazer isso para 1 milhão de estações faria no olhômetro? Pense como programador. Você não pensou numa forma de obter estes números?
+Comece a ler mais o help das funções que você acha conhece, principalmente os exemplos.
+
+```{r , echo = FALSE, comment="JDT>"}
+# penalizacoes
+p8 <-   1/10 # c
+```
+
 
   **d**. Calcule a amplitude térmica diária ($ATD = T_{max}-T_{min}$, onde $T_{max}$: temperatura máxima dária e $T_{min}$: temperatura mínima dária) das estações 1 e 2, arrendondando para uma casa decimal. Salve os resultados nas variaveis `atd_est1` e `atd_est2`.
 ```{r}
@@ -281,16 +450,29 @@ min1 <- which.min(tar_est1)
 max2 <- which.max(tar_est2)
 min2 <- which.min(tar_est2)
 (atd_est2 <- round(tar_est2[max2] - tar_est2[min2], 1))
+
+# em uma linha
+#round(max(tar_est1) - min(tar_est1), 1))
 ```
+> Falta de boas práticas: variáveis poderiam ter nomes com significado adequado.
 
   **e**. Qual o horário de ocorrência das temperaturas máximas e mínimas em cada estação? Salve os resultados nas variáveis `hmax_est{i}` e `hmin_est{i}`, com $i = 1, 2$.
 ```{r}
-(hmax_est1 <- max1)
+(hmax_est1 <- max1) # errado
+ # tempo[which.max(tar_est1)] # correto
 (hmin_est1 <- min1)
 
 (hmax_est2 <- max2)
 (hmin_est2 <- min2)
 ```
+
+> Os horário corretos na est1 são 15 e 6. A variável que indica horário é a `hora` que vai de 0:23. 
+
+```{r , echo = FALSE, comment="JDT>"}
+# penalizacoes
+p8 <-   p8 + 1/10 # d
+```
+
 
   **f**. Quando `tar_est2` é maior que `tar_est1` qual a maior diferença absoluta de temperatura entre as duas estações?
 ```{r}
@@ -303,10 +485,19 @@ min2 <- which.min(tar_est2)
 
 ```
 
+
+
   **g**. Qual a hora correspondende a ocorrência daquela maior diferença absoluta de temperatura obtida no item anterior?
 ```{r}
 (hora <- which.max(dif))
 
+```
+
+> Horário errado novamente.
+
+```{r , echo = FALSE, comment="JDT>"}
+# penalizacoes
+p8 <-   1/10 * 0.5 + p8
 ```
 
   **h**. O horário do pôr do sol pode ser estimado a partir da $T_{ar}$. Para o período após o horário de ocorrência da $T_{max}$ determina-se em qual hora ocorre a maior queda de $T_{ar}$ em relação a hora anterior. Estime o horário do pôr do sol para as duas estações (`hps_est{i}`). 
@@ -334,6 +525,12 @@ min2 <- which.min(tar_est2)
 (hps_est2 <- hmax_est2 + h_dif_max)
 
 ```
+> Horário errado novamente. tempo[hps_est1] é o correto.
+
+```{r , echo = FALSE, comment="JDT>"}
+# penalizacoes
+p8 <-   (1/10 * 0.5) + p8
+```
 
 
   **i**. Em quais horas as temperaturas das duas estações estão mais próximas uma da outra, ou seja com menos de 0,5°C de diferença ?
@@ -341,6 +538,14 @@ min2 <- which.min(tar_est2)
 (dif_est <- abs(tar_est1 - tar_est2))
 (menor_dif <- which(dif_est < 0.5))
 ```
+
+> Horários errados.  tempo[menor_dif] é o correto.
+
+```{r , echo = FALSE, comment="JDT>"}
+# penalizacoes
+p8 <-   (1/10 ) + p8
+```
+
 
   **j**. Calcule a temperatura média diária usando os seguintes métodos para estação 2.
 
@@ -360,20 +565,49 @@ $T_{med_{2}} = (T_{max} + T_{min} + T_{9} + 2T_{21})/5$, salvando em uma variáv
 ```{r}
 # método 2:
 
-(tar_met2 <- (Tmax2 + Tmin2 + tar_est2[9] + 2* tar_est2[21])/5)
+(tar_met2 <- (Tmax2 + Tmin2 + tar_est2[9] + 2* tar_est2[21])/5)  # errado
+(tar_met2_cor <- (Tmax2 + Tmin2 + tar_est2[tempo == 9] + 2* tar_est2[tempo == 21])/5) # correto
 ```
 
+
 $T_{med_{3}} = (T_{7} + T_{14} + 2T_{21})/4$, salvando em uma variável `tar_met3`.
+
 ```{r}
 # método 3:
 
-(tar_met3 <- (tar_est2[7] + tar_est2[14] + 2*tar_est2[21])/4) 
+(tar_met3 <- (tar_est2[7] + tar_est2[14] + 2*tar_est2[21])/4) # errado 
+(tar_met3_cor <- (tar_est2[tempo == 7] + tar_est2[tempo == 14] + 2*tar_est2[tempo == 21])/4) # correto
 ```
 
 Compare este resultados com aqueles obtidos no item **a**. Qual é melhor?
 
 Comparando os resultados obtidos com o do item **a**, $T_{med_{3}}$ apresenta um valor mais próximo, isto se deve ao fato do método não utilizar os pontos extremos do vetor dos dados (temperatura máxima e mínima). 
 
+> Você deveria mostrar isso com seu código. Como você chegou a essa conclusão? que cálculo mental não expresso aqui que você fez para afirmar isso?
+
+> O método 2 é o mais próximo à média das 24 h. Corrija seus cálculos e verifique.
+
+
+```{r}
+dif_abs_mets_est2 <- c(
+  m1 = tar_met1 - tmed_est2,
+  m2 = tar_met2_cor - tmed_est2,
+  m3 = tar_met3_cor - tmed_est2
+)
+dif_abs_mets_est2
+#>      m1      m2      m3 
+#>  1.1200 -0.3100 -0.3325
+dif_abs_mets_est2[which.min(abs(dif_abs_mets_est2))]
+```
+
+
+```{r jdt-correcao8, echo = FALSE, comment="JDT>"}
+# penalizacoes
+p8 <-   (1/10) + p8
+
+# nota questão 1
+(nq8 <- 1 - p8)
+```
 
 ##### 9. Calcule a temperatura do ar horária usando o **modelo de onda** para representação do ciclo diário da temperatura do ar, descrito pelas seguintes equações:
 
@@ -406,16 +640,23 @@ h > h_{T_{max}},  & arg = \pi\left ( \frac{14-h}{10+h_{Tmin}} \right )
 `r paste("  ")`**c**. Calcule a correlação ($r$) nos dois casos. A barra representa a média aritmética.
 
 $$r = \frac{\sum_{i=1}^{n} (T_{obs}-\bar{T}_{obs})(T_{calc}-\bar{T}_{calc}))}{\sqrt{\sum_{i = 1}^{n} (T_{obs}-\bar{T}_{obs})^{2}(T_{calc}-\bar{T}_{calc})^{2})}}$$
+
+  
   a.
+
 ```{r}
 h <- seq(from = 0, to = 23, by = 1)
 
 T_med1 <- (tar_est1[max1] + tar_est1[min1])/2
-T_med2 <- (tar_est2[max2] + tar_est2[min2])/2
+(T_med2 <- (tar_est2[max2] + tar_est2[min2])/2)
 
 A1 <- (tar_est1[max1] - tar_est1[min1])/2
-A2 <- (tar_est2[max2] - tar_est2[min2])/2
+(A2 <- (tar_est2[max2] - tar_est2[min2])/2)
 
+```
+>JDT: como as váriaveis hmin_est1  e hmax_est1 estão erradas o erro se propagará em toda esta questão.
+
+```{r}
 ## Estação 1 -------------------------------------------------------------
 
 arg11 <- ifelse(h < hmin_est1, pi*((h + 10)/(10 + hmin_est1)), NA )
@@ -439,10 +680,19 @@ arg13 <- arg13[!is.na(arg13)]
 Tcalc13 <- T_med1 + A1*cos(arg13)
 
 (Tcalc1 <- c(Tcalc11, Tcalc12, Tcalc13))
+```
 
+
+
+
+```{r}
 ## Estação 2 -----------------------------------------------------------------
-
+# de novo h?
 h <- seq(from = 0, to = 23, by = 1)
+
+# correção para verificar resultados
+hmax_est2 <- 14 
+hmin_est2 <- 5
 
 arg21 <- ifelse(h < hmin_est2, pi*((h + 10)/(10 + hmin_est2)), NA )
 (arg21 <- arg21[!is.na(arg21)])
@@ -465,7 +715,54 @@ arg23 <- ifelse(h >= hmax_est2, pi*((14 - h)/(10 + hmin_est2)), NA )
 Tcalc23 <- T_med2 + A2*cos(arg23)
 
 (Tcalc2 <- c(Tcalc21, Tcalc22, Tcalc23))
+```
 
+> Novamente uso de loopings desnecessários. Segue uma versão sem loopings e a qual usa o ensinado em sala de aula. 
+
+```{r}
+# estação 2
+h <- 0:23
+h_tmin <- hmin_est2
+h_tmax <- hmax_est2
+tar_h <- tar_est2
+tar_calc <- rep(NA, length(tar_h))
+
+# metade da amplitude
+A <- (max(tar_h) - min(tar_h))/2
+# Temp med
+Tbar <- (max(tar_h) + min(tar_h))/2
+
+# h < hTmin
+arg_madruga <- (h + 10) / (10 + h_tmin)
+temp <- Tbar + A * cos(pi * arg_madruga)
+tar_calc <- ifelse(
+  test = h < h_tmin,
+  yes = temp,
+  tar_calc
+)
+
+# h_tmin < h <= h_tmax
+arg_dia <- (h - h_tmin) / (h_tmax - h_tmin)
+tar_calc <- ifelse(
+  test = h >= h_tmin & h < h_tmax,
+  yes = Tbar - A * cos(pi * arg_dia),
+  tar_calc
+)
+
+# h >= h_tmax 
+arg_trans <- (14 - h) / (10 + h_tmin)
+tar_calc <- ifelse(
+  test = h >= h_tmax,
+  yes = Tbar + A * cos(pi * arg_trans),
+  tar_calc
+)
+
+tar_calc_2 <- tar_calc
+tar_calc_2
+```
+
+
+```{r}
 ##-----------------------------------------------------------------------
 
 plot(h, Tcalc1, type = "p", pch = 19, col = 1, xlab = "", ylab = "", ylim = c(12,24))
@@ -494,8 +791,8 @@ DT2 <- (Tcalc2 - tar_est2)^2
 (RMSE_2 <- sqrt((1/n1)*sum(DT2)))
 
 ```
-  
-  
+> Seu cálculo de RMSE parece correto, mas as estimativas de tcalc2 e 1 estão erradas.
+
   c.
 ```{r}
 
@@ -534,6 +831,8 @@ den2 <- som3*som4
 
 ```
   
+> Seu cálculo da correlação parece correto, mas as estimativas de tcalc2 e 1 estão erradas.
+  
 ```{r}
 
 ## Comparação com os dados das estações
@@ -548,3 +847,21 @@ legenda <- c("Tcalc1","Tcalc2", "tar_est1", "tar_est2")
 legend(0, 24, legenda, col = c(1,2,4,3), lty = c(1,1,1,1), bty = "n", cex = 0.9, ncol = 2)
 ```
 
+```{r jdt-correcao9, echo = FALSE, comment="JDT>"}
+# penalizacoes
+p9 <- 0.5
+
+# nota questão 1
+(nq9 <- 1 - p9)
+```
+
+
+
+```{r jdt-nota-final, comment = "JDT>", echo=FALSE}
+# requer conexão de internet
+source("https://gist.githubusercontent.com/lhmet/3ddfc43bcf796c81ecfd9bb93f5f5dc2/raw/b489a6bb4d948472afa5068256b7869a7997e109/aux-funs-list-correction")
+coleta_notas
+# verificação de autoria
+nota <- round((sum(coleta_notas)/length(coleta_notas) * 10), 1)
+message("Nota: ", nota)
+```
